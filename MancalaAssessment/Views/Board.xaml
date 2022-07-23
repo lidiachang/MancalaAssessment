@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="MancalaAssessment.Views.Board"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MancalaAssessment.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="240" >
+    <Grid Height="240">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="120" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="120" />
+        </Grid.ColumnDefinitions>
+        <Grid x:Name="StorePlayer2" Grid.Column="0">
+            <Ellipse Width="80" Height="200" HorizontalAlignment="Center" VerticalAlignment="Center" Stroke="Magenta" Fill="#EEE" />
+            <TextBlock Text="{Binding StorePlayer2, FallbackValue=0,Mode=TwoWay}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" />
+        </Grid>
+        <Grid x:Name="AllPits" Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            
+            <!-- Pits Player 2 -->
+            <UniformGrid x:Name="PitsPlayer2" Grid.Row="0" Rows="1">
+                <local:Pit x:Name="s20" Stones="{Binding StonesPlayer2[0] ,Mode=TwoWay}" Stroke="Magenta" Click="MancalaPitButton_Click20" />
+                <local:Pit x:Name="s21" Stones="{Binding StonesPlayer2[1] ,Mode=TwoWay}" Stroke="Magenta" Click="MancalaPitButton_Click21" />
+                <local:Pit x:Name="s22" Stones="{Binding StonesPlayer2[2] ,Mode=TwoWay}" Stroke="Magenta" Click="MancalaPitButton_Click22" />
+                <local:Pit Stones="{Binding StonesPlayer2[3] ,Mode=TwoWay}" Stroke="Magenta" Click="MancalaPitButton_Click23" />
+                <local:Pit Stones="{Binding StonesPlayer2[4] ,Mode=TwoWay}" Stroke="Magenta" Click="MancalaPitButton_Click24" />
+                <local:Pit Stones="{Binding StonesPlayer2[5] ,Mode=TwoWay}" Stroke="Magenta" Click="MancalaPitButton_Click25" />
+            </UniformGrid>
+
+            <!-- Pits Player 1 -->
+            <UniformGrid x:Name="PitsPlayer1" Grid.Row="1" Rows="1">
+                <local:Pit Stones="{Binding StonesPlayer1[5],Mode=TwoWay}" Stroke="CornflowerBlue" Click="MancalaPitButton_Click15" />
+                <local:Pit Stones="{Binding StonesPlayer1[4],Mode=TwoWay}" Stroke="CornflowerBlue" Click="MancalaPitButton_Click14" />
+                <local:Pit Stones="{Binding StonesPlayer1[3],Mode=TwoWay}" Stroke="CornflowerBlue" Click="MancalaPitButton_Click13" />
+                <local:Pit Stones="{Binding StonesPlayer1[2],Mode=TwoWay}" Stroke="CornflowerBlue" Click="MancalaPitButton_Click12" />
+                <local:Pit Stones="{Binding StonesPlayer1[1],Mode=TwoWay}" Stroke="CornflowerBlue" Click="MancalaPitButton_Click11" />
+                <local:Pit Stones="{Binding StonesPlayer1[0],Mode=TwoWay}" Stroke="CornflowerBlue" Click="MancalaPitButton_Click10" />
+            </UniformGrid>
+        </Grid>
+        <Grid x:Name="StorePlayer1" Grid.Column="2">
+            <Ellipse Width="80" Height="200" HorizontalAlignment="Center" VerticalAlignment="Center" Stroke="CornflowerBlue" Fill="#EEE" />
+            <TextBlock Text="{Binding StorePlayer1, FallbackValue=0}" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" FontWeight="Bold" />
+        </Grid>
+    </Grid>
+</UserControl>
