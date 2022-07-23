@@ -24,22 +24,22 @@
             
             <!-- Pits Player 2 -->
             <UniformGrid x:Name="PitsPlayer2" Grid.Row="0" Rows="1">
-                <local:Pit x:Name="s20" Stones="{Binding StonesPlayer2[0] ,Mode=TwoWay}" Stroke="Magenta" Click="MancalaPitButton_Click20" />
-                <local:Pit x:Name="s21" Stones="{Binding StonesPlayer2[1] ,Mode=TwoWay}" Stroke="Magenta" Click="MancalaPitButton_Click21" />
-                <local:Pit x:Name="s22" Stones="{Binding StonesPlayer2[2] ,Mode=TwoWay}" Stroke="Magenta" Click="MancalaPitButton_Click22" />
-                <local:Pit Stones="{Binding StonesPlayer2[3] ,Mode=TwoWay}" Stroke="Magenta" Click="MancalaPitButton_Click23" />
-                <local:Pit Stones="{Binding StonesPlayer2[4] ,Mode=TwoWay}" Stroke="Magenta" Click="MancalaPitButton_Click24" />
-                <local:Pit Stones="{Binding StonesPlayer2[5] ,Mode=TwoWay}" Stroke="Magenta" Click="MancalaPitButton_Click25" />
+                <local:Pit Stones="{Binding StonesPlayer2[0] ,Mode=TwoWay}" Stroke="Magenta" Command="{Binding MovePlayer2}" CommandParameter="0"  />
+                <local:Pit Stones="{Binding StonesPlayer2[1] ,Mode=TwoWay}" Stroke="Magenta" Command="{Binding MovePlayer2}" CommandParameter="1"  />
+                <local:Pit Stones="{Binding StonesPlayer2[2] ,Mode=TwoWay}" Stroke="Magenta" Command="{Binding MovePlayer2}" CommandParameter="2"  />
+                <local:Pit Stones="{Binding StonesPlayer2[3] ,Mode=TwoWay}" Stroke="Magenta" Command="{Binding MovePlayer2}" CommandParameter="3"  />
+                <local:Pit Stones="{Binding StonesPlayer2[4] ,Mode=TwoWay}" Stroke="Magenta" Command="{Binding MovePlayer2}" CommandParameter="4"  />
+                <local:Pit Stones="{Binding StonesPlayer2[5] ,Mode=TwoWay}" Stroke="Magenta" Command="{Binding MovePlayer2}" CommandParameter="5"  />
             </UniformGrid>
 
             <!-- Pits Player 1 -->
             <UniformGrid x:Name="PitsPlayer1" Grid.Row="1" Rows="1">
-                <local:Pit Stones="{Binding StonesPlayer1[5],Mode=TwoWay}" Stroke="CornflowerBlue" Click="MancalaPitButton_Click15" />
-                <local:Pit Stones="{Binding StonesPlayer1[4],Mode=TwoWay}" Stroke="CornflowerBlue" Click="MancalaPitButton_Click14" />
-                <local:Pit Stones="{Binding StonesPlayer1[3],Mode=TwoWay}" Stroke="CornflowerBlue" Click="MancalaPitButton_Click13" />
-                <local:Pit Stones="{Binding StonesPlayer1[2],Mode=TwoWay}" Stroke="CornflowerBlue" Click="MancalaPitButton_Click12" />
-                <local:Pit Stones="{Binding StonesPlayer1[1],Mode=TwoWay}" Stroke="CornflowerBlue" Click="MancalaPitButton_Click11" />
-                <local:Pit Stones="{Binding StonesPlayer1[0],Mode=TwoWay}" Stroke="CornflowerBlue" Click="MancalaPitButton_Click10" />
+                <local:Pit Stones="{Binding StonesPlayer1[5],Mode=TwoWay}" Stroke="CornflowerBlue" Command="{Binding MovePlayer1}" CommandParameter="5" />
+                <local:Pit Stones="{Binding StonesPlayer1[4],Mode=TwoWay}" Stroke="CornflowerBlue" Command="{Binding MovePlayer1}" CommandParameter="4"  />
+                <local:Pit Stones="{Binding StonesPlayer1[3],Mode=TwoWay}" Stroke="CornflowerBlue" Command="{Binding MovePlayer1}" CommandParameter="3"  />
+                <local:Pit Stones="{Binding StonesPlayer1[2],Mode=TwoWay}" Stroke="CornflowerBlue" Command="{Binding MovePlayer1}" CommandParameter="5"  />
+                <local:Pit Stones="{Binding StonesPlayer1[1],Mode=TwoWay}" Stroke="CornflowerBlue" Command="{Binding MovePlayer1}" CommandParameter="1"  />
+                <local:Pit Stones="{Binding StonesPlayer1[0],Mode=TwoWay}" Stroke="CornflowerBlue" Command="{Binding MovePlayer1}" CommandParameter="0"  />
             </UniformGrid>
         </Grid>
         <Grid x:Name="StorePlayer1" Grid.Column="2">

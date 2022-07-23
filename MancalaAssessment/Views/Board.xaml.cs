@@ -162,7 +162,7 @@ namespace MancalaAssessment.Views
 
             var PlayerPool = board.StorePlayer1;
             var OpponentPool = board.StorePlayer2;
-            //current player :2 
+            //current player :1 
             int j = i;
             board.StonesPlayer1[i] = 0;
             //distribute stones to players pit
