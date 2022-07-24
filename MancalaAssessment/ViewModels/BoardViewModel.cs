@@ -7,8 +7,9 @@ namespace MancalaAssessment.ViewModels
     public class BoardViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
-        public BoardViewModel()
+        public BoardViewModel(bool AI = false)
         {
+            playwithAI = AI;
             MovePlayer1 = new RelayCommand(p => Play(int.Parse(p.ToString()), 1));
             MovePlayer2 = new RelayCommand(p => Play(int.Parse(p.ToString()), 2));
         }
@@ -70,7 +71,8 @@ namespace MancalaAssessment.ViewModels
         //Enable lable to control button display.
         private bool player1Enable = true;
         private bool player2Enable = true;
-        public bool Player1Enable {
+        public bool Player1Enable
+        {
             get => player1Enable;
             set
             {
@@ -95,7 +97,12 @@ namespace MancalaAssessment.ViewModels
         }
         public ICommand MovePlayer1 { set; get; }
         public ICommand MovePlayer2 { set; get; }
-    
+
+        private bool playwithAI = false;
+
+        private string result;
+
+
         public void Play(int i, int player)
         {
             //set initial player & opponent
@@ -118,7 +125,7 @@ namespace MancalaAssessment.ViewModels
 
             int j = i;
 
-            if(player==1)
+            if (player == 1)
                 stonesPlayer1[i] = 0;
             else
                 stonesPlayer2[i] = 0;
@@ -171,8 +178,13 @@ namespace MancalaAssessment.ViewModels
                 StorePlayer2 = myside ? PlayerPool : OpponentPool;
                 StorePlayer1 = myside == false ? PlayerPool : OpponentPool;
             }
-           string result= CheckResult(touchStore, player);
+            result = CheckResult(touchStore, player);
 
+            // If it's with AI. Automatically move player2
+            if (result == "Player 2" && playwithAI)
+            {
+                AIPlay();
+            }
             //send messenger to MainWindowViewModel where there register a receive handler.
             Messenger.Default.Send(result);
         }
@@ -282,5 +294,57 @@ namespace MancalaAssessment.ViewModels
             //MainWindow parentWindow = (MainWindow)Window.GetWindow(this);
             //parentWindow.Display(result);
         }
+        private void AIPlay()
+        {
+            int i = AI_SelectPit();
+            Play(i, 2);
+        }
+        private int AI_SelectPit()
+        {
+            int selected = -1;
+
+            while (selected < 0)
+            {
+                for (int i = 0; i <6 ; i++)
+                {
+                    //Pick one that could gain a free move
+                    if (stonesPlayer2[i] == i + 1)
+                    {
+                        selected = i;
+                        return selected;
+                    }
+                }
+
+                //move one that has a large number & could be eaten by opponent 
+                for (int i = 0; i < 6; i++)
+                {
+                    if (stonesPlayer2[i] > 4 && stonesPlayer1[5 - i] == 0)
+                    {
+                        for (int j = 5; i < (5 - i); j--)
+                        {
+                            if (stonesPlayer1[j] == j - (5 - i))
+                            {
+                                selected = i;
+                                return selected;
+                            }
+                        }
+                    }
+                }
+
+                // pick one closer to pool
+                for (int i = 0; i < 6; i++)
+                {
+                    if (stonesPlayer2[i] > 0)
+                    {
+                        selected = i;
+                        return selected;
+                    }
+                }
+            }
+
+            return selected;
+
+        }
     }
+
 }

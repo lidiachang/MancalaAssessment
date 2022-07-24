@@ -12,7 +12,8 @@ namespace MancalaAssessmentTests.ViewModelTests
         {
             Assert.AreEqual("Click \"New Game\" to get started!", new MainWindowViewModel().BannerText);
         }
-    [TestMethod]
+    
+        [TestMethod]
         public void testPlay()
         {
             BoardViewModel game = new BoardViewModel();
@@ -45,6 +46,20 @@ namespace MancalaAssessmentTests.ViewModelTests
             Assert.AreEqual(game.StonesPlayer1.Sum() + game.StonesPlayer2.Sum() + game.StorePlayer1 + game.StorePlayer2, sum);
 
         }
+        [TestMethod]
+        public void testPlaywAI()
+        {
+            BoardViewModel game = new BoardViewModel(true);
+            int sum = 48;
+            game.Play(1, 1);
+            Assert.AreEqual(game.StonesPlayer1.Sum() + game.StonesPlayer2.Sum() + game.StorePlayer1 + game.StorePlayer2, sum);
 
+            game.Play(3, 1);
+            Assert.AreEqual(game.StonesPlayer1.Sum() + game.StonesPlayer2.Sum() + game.StorePlayer1 + game.StorePlayer2, sum);
+
+            game.Play(4, 1);
+            Assert.AreEqual(game.StonesPlayer1.Sum() + game.StonesPlayer2.Sum() + game.StorePlayer1 + game.StorePlayer2, sum);
+
+        }
     }
 }

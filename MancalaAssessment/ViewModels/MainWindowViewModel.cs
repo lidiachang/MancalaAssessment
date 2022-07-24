@@ -9,6 +9,11 @@ namespace MancalaAssessment.ViewModels
         {
             Messenger.Default.Register<string>(this, ChangeBanner);
         }
+        public MainWindowViewModel(string customizedB)
+        {
+            Messenger.Default.Register<string>(this, ChangeBanner);
+            ChangeBanner(customizedB);
+        }
         private string bannerText = "Click \"New Game\" to get started!";
         public string BannerText
         {

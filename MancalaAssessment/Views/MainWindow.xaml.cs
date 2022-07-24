@@ -25,5 +25,13 @@ namespace MancalaAssessment.Views
             boardViewModel = new BoardViewModel();
             GameBoard.DataContext = boardViewModel;
         }
+        private void AI_Click(object sender, RoutedEventArgs e)
+        {
+            InitializeComponent();
+            this.DataContext = new MainWindowViewModel("Play with AI, You(Player 1) go first.");
+            boardViewModel = new BoardViewModel(true);
+            boardViewModel.Player2Enable = false;
+            GameBoard.DataContext = boardViewModel;
+        }
     }
 }
