@@ -9,7 +9,6 @@ namespace MancalaAssessment.ViewModels
         public event PropertyChangedEventHandler? PropertyChanged;
         public BoardViewModel()
         {
-            //ChangeMessage = new ChangeMessageCommand(this);
             MovePlayer1 = new RelayCommand(p => Play(int.Parse(p.ToString()), 1));
             MovePlayer2 = new RelayCommand(p => Play(int.Parse(p.ToString()), 2));
         }
@@ -68,14 +67,42 @@ namespace MancalaAssessment.ViewModels
                 }
             }
         }
-
-        public int selectedIndex = 0;
+        //Enable lable to control button display.
+        private bool player1Enable = true;
+        private bool player2Enable = true;
+        public bool Player1Enable {
+            get => player1Enable;
+            set
+            {
+                if (value != player1Enable)
+                {
+                    player1Enable = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(player1Enable)));
+                }
+            }
+        }
+        public bool Player2Enable
+        {
+            get => player2Enable;
+            set
+            {
+                if (value != player2Enable)
+                {
+                    player2Enable = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(player2Enable)));
+                }
+            }
+        }
         public ICommand MovePlayer1 { set; get; }
         public ICommand MovePlayer2 { set; get; }
-
-        public bool Play(int i, int player)
+    
+        public void Play(int i, int player)
         {
+            //set initial player & opponent
             int stones = player == 1 ? stonesPlayer1[i] : stonesPlayer2[i];
+            if (stones == 0)
+                return;
+
             var Player = player == 1 ? stonesPlayer1 : stonesPlayer2;
             var Opponent = player == 1 ? stonesPlayer2 : stonesPlayer1;
 
@@ -83,11 +110,11 @@ namespace MancalaAssessment.ViewModels
             var OpponentPool = player == 1 ? storePlayer2 : storePlayer1;
 
             bool myside = true;
-            bool rtn;
+            bool touchStore;
             if (stones - (i + 1) % 14 == 0)
-                rtn = true;
+                touchStore = true;
             else
-                rtn = false;
+                touchStore = false;
 
             int j = i;
 
@@ -112,7 +139,7 @@ namespace MancalaAssessment.ViewModels
                     PlayerPool++;
                     stones--;
                     j = 6;
-                    // if there's still stones after -- exchange player,j=6
+                    // if there's still stones after -- exchange player
                     // if not, conti.( end loop)
                     if (stones > 0)
                     {
@@ -133,7 +160,7 @@ namespace MancalaAssessment.ViewModels
                 Player[j] = 0;
                 Opponent[5 - j] = 0;
             }
-
+            //Trigger Porperty changed
             if (player == 1)
             {
                 StorePlayer1 = myside ? PlayerPool : OpponentPool;
@@ -144,8 +171,10 @@ namespace MancalaAssessment.ViewModels
                 StorePlayer2 = myside ? PlayerPool : OpponentPool;
                 StorePlayer1 = myside == false ? PlayerPool : OpponentPool;
             }
-            bool gameOver = CheckOver();
-            return rtn;
+           string result= CheckResult(touchStore, player);
+
+            //send messenger to MainWindowViewModel where there register a receive handler.
+            Messenger.Default.Send(result);
         }
         private bool CheckOver()
         {
@@ -157,7 +186,7 @@ namespace MancalaAssessment.ViewModels
                     isP1Empty = false;
             }
             bool isP2Empty = true;
-            foreach (var s in StonesPlayer1)
+            foreach (var s in StonesPlayer2)
             {
                 if (s > 0)
                     isP2Empty = false;
@@ -183,6 +212,75 @@ namespace MancalaAssessment.ViewModels
             }
 
             return false;
+        }
+        private string CheckResult(bool touchStore, int player)
+        {
+            string result = "";
+            // check if game over 
+            //(any player's pits are empty  => opponent get all))
+            //if game over
+            // ==> determine who wins
+            //else 
+            // ==> show who's turn
+
+
+            if (CheckOver())
+            {
+                if (StorePlayer1 > StorePlayer2)
+                {
+                    result = "Player 1 Wins ! Click New Game to restart.";
+                    Player2Enable = false;
+                    Player1Enable = false;
+                }
+                else if (StorePlayer1 < StorePlayer2)
+                {
+                    result = "Player 2 Wins ! Click New Game to restart.";
+                    Player2Enable = false;
+                    Player1Enable = false;
+                }
+                else
+                {
+                    result = "TIE ! Click New Game to restart.";
+                    Player2Enable = false;
+                    Player1Enable = false;
+                }
+            }
+            else
+            {
+                if (player == 2)
+                {
+                    if (touchStore)
+                    {
+                        Player2Enable = true;
+                        Player1Enable = false;
+                        result = "Player 2";
+                    }
+                    else
+                    {
+                        Player2Enable = false;
+                        Player1Enable = true;
+                        result = "Player 1";
+                    }
+                }
+                else
+                {
+                    if (touchStore)
+                    {
+                        Player2Enable = false;
+                        Player1Enable = true;
+                        result = "Player 1";
+                    }
+                    else
+                    {
+                        Player2Enable = true;
+                        Player1Enable = false;
+                        result = "Player 2";
+                    }
+                }
+            }
+            return result;
+            //MainWindow parentWindow = (MainWindow)Window.GetWindow(this);
+            //parentWindow.Display(result);
         }
     }
 }

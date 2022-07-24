@@ -24,14 +24,6 @@ namespace MancalaAssessment.Views
             this.DataContext = new MainWindowViewModel();
             boardViewModel = new BoardViewModel();
             GameBoard.DataContext = boardViewModel;
-            GameBoard.PitsPlayer1.IsEnabled = true;
-            GameBoard.PitsPlayer2.IsEnabled = true;
-
-            //throw new NotImplementedException();
-        }
-        public void Display(string player)
-        {
-            (this.DataContext as MainWindowViewModel).BannerText = player;
         }
     }
 }

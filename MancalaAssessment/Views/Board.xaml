@@ -23,23 +23,23 @@
             </Grid.RowDefinitions>
             
             <!-- Pits Player 2 -->
-            <UniformGrid x:Name="PitsPlayer2" Grid.Row="0" Rows="1">
-                <local:Pit Stones="{Binding StonesPlayer2[0] ,Mode=TwoWay}" Stroke="Magenta" Command="{Binding MovePlayer2}" CommandParameter="0"  />
-                <local:Pit Stones="{Binding StonesPlayer2[1] ,Mode=TwoWay}" Stroke="Magenta" Command="{Binding MovePlayer2}" CommandParameter="1"  />
-                <local:Pit Stones="{Binding StonesPlayer2[2] ,Mode=TwoWay}" Stroke="Magenta" Command="{Binding MovePlayer2}" CommandParameter="2"  />
-                <local:Pit Stones="{Binding StonesPlayer2[3] ,Mode=TwoWay}" Stroke="Magenta" Command="{Binding MovePlayer2}" CommandParameter="3"  />
-                <local:Pit Stones="{Binding StonesPlayer2[4] ,Mode=TwoWay}" Stroke="Magenta" Command="{Binding MovePlayer2}" CommandParameter="4"  />
-                <local:Pit Stones="{Binding StonesPlayer2[5] ,Mode=TwoWay}" Stroke="Magenta" Command="{Binding MovePlayer2}" CommandParameter="5"  />
+            <UniformGrid x:Name="PitsPlayer2" Grid.Row="0" Rows="1" IsEnabled="{Binding Player2Enable}" >
+                <local:Pit Stones="{Binding StonesPlayer2[0]}" Stroke="Magenta" Command="{Binding MovePlayer2}" CommandParameter="0"  />
+                <local:Pit Stones="{Binding StonesPlayer2[1]}" Stroke="Magenta" Command="{Binding MovePlayer2}" CommandParameter="1"  />
+                <local:Pit Stones="{Binding StonesPlayer2[2]}" Stroke="Magenta" Command="{Binding MovePlayer2}" CommandParameter="2"  />
+                <local:Pit Stones="{Binding StonesPlayer2[3]}" Stroke="Magenta" Command="{Binding MovePlayer2}" CommandParameter="3"  />
+                <local:Pit Stones="{Binding StonesPlayer2[4]}" Stroke="Magenta" Command="{Binding MovePlayer2}" CommandParameter="4"  />
+                <local:Pit Stones="{Binding StonesPlayer2[5]}" Stroke="Magenta" Command="{Binding MovePlayer2}" CommandParameter="5"  />
             </UniformGrid>
 
             <!-- Pits Player 1 -->
-            <UniformGrid x:Name="PitsPlayer1" Grid.Row="1" Rows="1">
-                <local:Pit Stones="{Binding StonesPlayer1[5],Mode=TwoWay}" Stroke="CornflowerBlue" Command="{Binding MovePlayer1}" CommandParameter="5" />
-                <local:Pit Stones="{Binding StonesPlayer1[4],Mode=TwoWay}" Stroke="CornflowerBlue" Command="{Binding MovePlayer1}" CommandParameter="4"  />
-                <local:Pit Stones="{Binding StonesPlayer1[3],Mode=TwoWay}" Stroke="CornflowerBlue" Command="{Binding MovePlayer1}" CommandParameter="3"  />
-                <local:Pit Stones="{Binding StonesPlayer1[2],Mode=TwoWay}" Stroke="CornflowerBlue" Command="{Binding MovePlayer1}" CommandParameter="5"  />
-                <local:Pit Stones="{Binding StonesPlayer1[1],Mode=TwoWay}" Stroke="CornflowerBlue" Command="{Binding MovePlayer1}" CommandParameter="1"  />
-                <local:Pit Stones="{Binding StonesPlayer1[0],Mode=TwoWay}" Stroke="CornflowerBlue" Command="{Binding MovePlayer1}" CommandParameter="0"  />
+            <UniformGrid x:Name="PitsPlayer1" Grid.Row="1" Rows="1" IsEnabled="{Binding Player1Enable}">
+                <local:Pit Stones="{Binding StonesPlayer1[5]}" Stroke="CornflowerBlue" Command="{Binding MovePlayer1}" CommandParameter="5" />
+                <local:Pit Stones="{Binding StonesPlayer1[4]}" Stroke="CornflowerBlue" Command="{Binding MovePlayer1}" CommandParameter="4"  />
+                <local:Pit Stones="{Binding StonesPlayer1[3]}" Stroke="CornflowerBlue" Command="{Binding MovePlayer1}" CommandParameter="3"  />
+                <local:Pit Stones="{Binding StonesPlayer1[2]}" Stroke="CornflowerBlue" Command="{Binding MovePlayer1}" CommandParameter="2"  />
+                <local:Pit Stones="{Binding StonesPlayer1[1]}" Stroke="CornflowerBlue" Command="{Binding MovePlayer1}" CommandParameter="1"  />
+                <local:Pit Stones="{Binding StonesPlayer1[0]}" Stroke="CornflowerBlue" Command="{Binding MovePlayer1}" CommandParameter="0"  />
             </UniformGrid>
         </Grid>
         <Grid x:Name="StorePlayer1" Grid.Column="2">
