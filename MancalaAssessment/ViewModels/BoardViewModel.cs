@@ -14,21 +14,20 @@ namespace MancalaAssessment.ViewModels
             MovePlayer1 = new RelayCommand(p => Play(int.Parse(p.ToString()), 1));
             MovePlayer2 = new RelayCommand(p => Play(int.Parse(p.ToString()), 2));
         }
+        #region private parameters
         private ObservableCollection<int> stonesPlayer1 = new ObservableCollection<int>() { 4, 4, 4, 4, 4, 4 };
-        public ObservableCollection<int> StonesPlayer1
-        {
-            get => stonesPlayer1;
-            set
-            {
-                if (value != stonesPlayer1)
-                {
-                    stonesPlayer1 = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StonesPlayer1)));
-                }
-            }
-        }
 
         private ObservableCollection<int> stonesPlayer2 = new ObservableCollection<int>() { 4, 4, 4, 4, 4, 4 };
+
+        private int storePlayer1 = 0;
+
+        private int storePlayer2 = 0;
+        //Enable lable to control button display.
+        private bool player1Enable = true;
+        private bool player2Enable = true;
+
+        #endregion
+        #region public parameters
         public ObservableCollection<int> StonesPlayer2
         {
             get => stonesPlayer2;
@@ -41,22 +40,18 @@ namespace MancalaAssessment.ViewModels
                 }
             }
         }
-
-        private int storePlayer1 = 0;
-        public int StorePlayer1
+        public ObservableCollection<int> StonesPlayer1
         {
-            get => storePlayer1;
+            get => stonesPlayer1;
             set
             {
-                if (value != storePlayer1)
+                if (value != stonesPlayer1)
                 {
-                    storePlayer1 = value;
-                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StorePlayer1)));
+                    stonesPlayer1 = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StonesPlayer1)));
                 }
             }
         }
-
-        private int storePlayer2 = 0;
         public int StorePlayer2
         {
             get => storePlayer2;
@@ -69,9 +64,18 @@ namespace MancalaAssessment.ViewModels
                 }
             }
         }
-        //Enable lable to control button display.
-        private bool player1Enable = true;
-        private bool player2Enable = true;
+        public int StorePlayer1
+        {
+            get => storePlayer1;
+            set
+            {
+                if (value != storePlayer1)
+                {
+                    storePlayer1 = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(StorePlayer1)));
+                }
+            }
+        }
         public bool Player1Enable
         {
             get => player1Enable;
@@ -96,14 +100,17 @@ namespace MancalaAssessment.ViewModels
                 }
             }
         }
-        public ICommand MovePlayer1 { set; get; }
-        public ICommand MovePlayer2 { set; get; }
 
+        #endregion
         private bool playwithAI = false;
 
         private string result = "";
 
+        public ICommand MovePlayer1 { set; get; }
+        public ICommand MovePlayer2 { set; get; }
 
+
+        #region Method
         public void Play(int i, int player)
         {
             //set initial player & opponent
@@ -193,6 +200,11 @@ namespace MancalaAssessment.ViewModels
             //send messenger to MainWindowViewModel where there register a receive handler.
             Messenger.Default.Send(result);
         }
+        /// <summary>
+        /// Check if anyone's pits are empty
+        /// & the other consume all stones
+        /// </summary>
+        /// <returns></returns>
         private bool CheckOver()
         {
             // check result 
@@ -230,16 +242,20 @@ namespace MancalaAssessment.ViewModels
 
             return false;
         }
+        /// <summary>
+        ///Check result & return string to display
+        ///CheckOver first
+        ///if game over
+        /// ==> determine who wins
+        ///else 
+        /// ==> show who's turn
+        /// </summary>
+        /// <param name="touchStore">whether player is touching the store</param>
+        /// <param name="player">who is playing.</param>
+        /// <returns></returns>
         private string CheckResult(bool touchStore, int player)
         {
             string result = "";
-            // check if game over 
-            //(any player's pits are empty  => opponent get all))
-            //if game over
-            // ==> determine who wins
-            //else 
-            // ==> show who's turn
-
 
             if (CheckOver())
             {
@@ -310,7 +326,7 @@ namespace MancalaAssessment.ViewModels
 
             while (selected < 0)
             {
-                for (int i = 0; i < 6 ; i++)
+                for (int i = 0; i < 6; i++)
                 {
                     //Pick one that could gain a free move
                     if (stonesPlayer2[i] == i + 1)
@@ -329,17 +345,17 @@ namespace MancalaAssessment.ViewModels
                         return selected;
                     }
                 }
-                
-                    // pick one closer to pool
-                    for (int i = 0; i < 6; i++)
+
+                // pick one closer to pool
+                for (int i = 0; i < 6; i++)
+                {
+                    if (stonesPlayer2[i] > 3 && stonesPlayer2[i] > i + 1)
                     {
-                        if (stonesPlayer2[i] > 3 && stonesPlayer2[i]>i+1)
-                        {
-                            selected = i;
-                            return selected;
-                        }
+                        selected = i;
+                        return selected;
                     }
-                
+                }
+
                 //move one that has a large number & could be eaten by opponent 
                 for (int i = 0; i < 6; i++)
                 {
@@ -371,5 +387,5 @@ namespace MancalaAssessment.ViewModels
 
         }
     }
-
+    #endregion
 }
