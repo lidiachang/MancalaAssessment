@@ -144,10 +144,13 @@ namespace MancalaAssessment.ViewModels
                 }
                 else if (j == 0)
                 {
-                    // add to the pool,
-                    PlayerPool++;
-                    stones--;
                     j = 6;
+                    if (myside)
+                    {
+                        // add to the pool,
+                        PlayerPool++;
+                        stones--;
+                    }
                     // if there's still stones after -- exchange player
                     // if not, conti.( end loop)
                     if (stones > 0)
