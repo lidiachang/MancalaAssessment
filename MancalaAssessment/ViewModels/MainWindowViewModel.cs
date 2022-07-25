@@ -7,7 +7,7 @@ namespace MancalaAssessment.ViewModels
         public event PropertyChangedEventHandler? PropertyChanged;
         public MainWindowViewModel()
         {
-            Messenger.Default.Register<string>(this, ChangeBanner);
+            Messenger.Default.Register<string>(this, ChangeBanner); 
         }
         public MainWindowViewModel(string customizedB)
         {

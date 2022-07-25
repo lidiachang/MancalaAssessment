@@ -21,7 +21,7 @@ namespace MancalaAssessment.Views
         private void NewGame_Click(object sender, RoutedEventArgs e)
         {
             InitializeComponent();
-            this.DataContext = new MainWindowViewModel();
+            this.DataContext = new MainWindowViewModel("New Game started!");
             boardViewModel = new BoardViewModel();
             GameBoard.DataContext = boardViewModel;
         }

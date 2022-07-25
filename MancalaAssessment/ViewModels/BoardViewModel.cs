@@ -1,7 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
-
+using System.Threading.Tasks;
+using System.Linq;
 namespace MancalaAssessment.ViewModels
 {
     public class BoardViewModel : INotifyPropertyChanged
@@ -100,7 +101,7 @@ namespace MancalaAssessment.ViewModels
 
         private bool playwithAI = false;
 
-        private string result;
+        private string result = "";
 
 
         public void Play(int i, int player)
@@ -118,6 +119,7 @@ namespace MancalaAssessment.ViewModels
 
             bool myside = true;
             bool touchStore;
+
             if (stones - (i + 1) % 14 == 0)
                 touchStore = true;
             else
@@ -183,7 +185,7 @@ namespace MancalaAssessment.ViewModels
             // If it's with AI. Automatically move player2
             if (result == "Player 2" && playwithAI)
             {
-                AIPlay();
+                Task<string> AIPlayR = AIPlay();
             }
             //send messenger to MainWindowViewModel where there register a receive handler.
             Messenger.Default.Send(result);
@@ -291,13 +293,13 @@ namespace MancalaAssessment.ViewModels
                 }
             }
             return result;
-            //MainWindow parentWindow = (MainWindow)Window.GetWindow(this);
-            //parentWindow.Display(result);
         }
-        private void AIPlay()
+        private async Task<string> AIPlay()
         {
+            await Task.Delay(1500);
             int i = AI_SelectPit();
             Play(i, 2);
+            return "Player2 Complete";
         }
         private int AI_SelectPit()
         {
@@ -305,7 +307,7 @@ namespace MancalaAssessment.ViewModels
 
             while (selected < 0)
             {
-                for (int i = 0; i <6 ; i++)
+                for (int i = 0; i < 6 ; i++)
                 {
                     //Pick one that could gain a free move
                     if (stonesPlayer2[i] == i + 1)
@@ -314,13 +316,33 @@ namespace MancalaAssessment.ViewModels
                         return selected;
                     }
                 }
-
+                //move one that can eat opponent's stones 
+                for (int i = 5; i > 0; i--)
+                {
+                    int j = i - (stonesPlayer2[i]);
+                    if (j >= 0 && stonesPlayer2[i] > 0 && stonesPlayer2[j] == 0 && stonesPlayer2[i] == j && stonesPlayer1[5 - i] > 2)
+                    {
+                        selected = i;
+                        return selected;
+                    }
+                }
+                
+                    // pick one closer to pool
+                    for (int i = 0; i < 6; i++)
+                    {
+                        if (stonesPlayer2[i] > 3 && stonesPlayer2[i]>i+1)
+                        {
+                            selected = i;
+                            return selected;
+                        }
+                    }
+                
                 //move one that has a large number & could be eaten by opponent 
                 for (int i = 0; i < 6; i++)
                 {
-                    if (stonesPlayer2[i] > 4 && stonesPlayer1[5 - i] == 0)
+                    if (stonesPlayer2[i] > 3 && stonesPlayer1[5 - i] == 0)
                     {
-                        for (int j = 5; i < (5 - i); j--)
+                        for (int j = 5; j > (5 - i); j--)
                         {
                             if (stonesPlayer1[j] == j - (5 - i))
                             {
@@ -342,7 +364,7 @@ namespace MancalaAssessment.ViewModels
                 }
             }
 
-            return selected;
+            return stonesPlayer2.IndexOf(stonesPlayer2.Where(x => x > 0).First());
 
         }
     }
